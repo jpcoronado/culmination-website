@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+   crossorigin=""/>
+   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+    <link rel="stylesheet" href="style.css">
+    
+    <title>Happy Donut | Order</title>
+</head>
+<body>
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top px-5">
+            <a href="index.html" class="navbar-brand">Happy Donut</a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="order.html" class="nav-link">Order</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Contact Us</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Sign Up</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="jumbotron-container container-xl">
+            <div class="jumbotron text-white text-center">
+                <div class="page-header">
+                    <h1 class="title">Happy Donut.</h1>
+                    <p>Each donut is a happy memory. Have one today!</p>
+                </div>
+            </div>
+        </div>
+
+    <div class="menu-container container bg-light">
+            <h1>Menu</h1>
+            <hr>
+
+            <div class="alert alert-success" id="success-alert">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <strong>Item has been added to the basket.</strong>
+            </div>
+
+            <script>
+                $(document).ready(function() {
+
+                    $("#success-alert").hide();
+
+                    $(".item-btn").click(function() {
+                        $("#success-alert").fadeTo(1000, 250).slideUp(250, function() {
+                        $("#success-alert").slideUp(250);
+                        });
+                    });
+
+                    currentBasket = [];
+                    totalCost = 0;
+                    $('#total-cost').html('Php ' + totalCost);
+
+                    $(".item-btn").click(function(){
+                        stringData = $(this).attr("value");
+                        objData = JSON.parse(stringData);
+                        currentBasket.push(objData);
+                        console.log(currentBasket);
+                        basketItem = '<tr><td>' + objData["name"] + '</td><td>Php ' + objData["cost"] +'</td></tr>';
+                        ($("#basket-list-head")).after(basketItem);
+                        totalCost = currentBasket.reduce((total, current) => total + current["cost"], 0.0);
+                        console.log(totalCost);
+                        $('#total-cost').html('Php ' + totalCost);
+                    });
+
+                    $("#clear-basket-btn").click(function(){
+                        console.log("yo");
+                        currentBasket = [];
+                        totalCost = 0;
+                        $("#basket-list").html('<tr id="basket-list-head"><th>Item</th><th>Cost</th></tr><tr><td>Total cost: </td><td id="total-cost"></td></tr>')
+                        $('#total-cost').html('Php ' + totalCost);
+                    });
+
+                });
+            </script>
+
+            <div class="row">
+                <div class="col-lg-6  col-sm-12">
+                    <h3>
+                        Donuts
+                    </h3>
+                    <table class="table bg-light">
+                        <tr>
+                            <td>Glazed Donut</td>
+                            <td>Php. 30.00</td>
+                            <td><button class="btn btn-primary item-btn" value='{"name":"Glazed Donut", "cost": 30.0 }'>Add to basket</button></td>
+                        </tr>
+                        <tr>
+                            <td>Chocolate Glazed Donut</td>
+                            <td>Php. 40.00</td>
+                            <td><button class="btn btn-primary item-btn" value='{"name":"Chocolate Glazed Donut", "cost":40.0 }'>Add to basket</button></td>
+                        </tr>
+                        <tr>
+                            <td>Boston Creme Donut</td>
+                            <td>Php. 40.00</td>
+                            <td><button class="btn btn-primary item-btn" value='{"name":"Boston Creme Donut", "cost": 40.0}'>Add to basket</button></td>
+                        </tr>
+                        <tr>
+                            <td>Strawberry Jelly Donut</td>
+                            <td>Php. 35.00</td>
+                            <td><button class="btn btn-primary item-btn" value='{"name":"Strawberry Jelly Donut", "cost":40.0 }'>Add to basket</button></td>
+                        </tr>
+                        <tr>
+                            <td>Powdered Donut</td>
+                            <td>Php. 30.00</td>
+                            <td><button class="btn btn-primary item-btn" value='{"name":"Powdered Donut", "cost":30.0 }'>Add to basket</button></td>
+                        </tr>
+                        <tr>
+                            <td>Box of Six</td>
+                            <td>Php. 150.00</td>
+                            <td><button class="btn btn-primary item-btn" value='{"name":"Box of Six", "cost": 150.0}'>Add to basket</button></td>
+                        </tr>
+                        <tr>
+                            <td>Box of Twelve</td>
+                            <td>Php. 350.00</td>
+                            <td><button class="btn btn-primary item-btn" value='{"name":"Box of Twelve", "cost": 350}'>Add to basket</button></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-lg-6 col-sm-12">
+                    <h3>
+                        Coffee
+                    </h3>
+                    <table class="table bg-light">
+                        <tr>
+                            <td>Arabica</td>
+                            <td>Php. 60.00</td>
+                            <td><button class="btn btn-primary item-btn" value='{"name":"Arabica", "cost": 60.0 }'>Add to basket</button></td>
+                        </tr>
+                        <tr>
+                            <td>Black</td>
+                            <td>Php. 60.00</td>
+                            <td><button class="btn btn-primary item-btn" value='{"name":"Black", "cost":60.0 }'>Add to basket</button></td>
+                        </tr>
+                        <tr>
+                            <td>Latte</td>
+                            <td>Php. 60.00</td>
+                            <td><button class="btn btn-primary item-btn" value='{"name":"Latte", "cost":60.0 }'>Add to basket</button></td>
+                        </tr>
+                        <tr>
+                            <td>Cappuccino</td>
+                            <td>Php. 60.00</td>
+                            <td><button class="btn btn-primary item-btn" value='{"name":"Cappuccino", "cost":60.0}'>Add to basket</button></td>
+                        </tr>
+                        <tr>
+                            <td>Espresso</td>
+                            <td>Php. 60.00</td>
+                            <td><button class="btn btn-primary item-btn" value='{"name":"Espresso", "cost":60.0 }'>Add to basket</button></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="container bg-light text-center">
+                <h2>
+                    Where should we deliver to?
+                </h2>
+                    <input type="text" class="form-control" id="location" placeholder="Enter your location...">
+                <hr>
+                <div id="mymap"></div>
+                <script>
+                var mymap = L.map('mymap').setView([14.6760, 121.0437], 13);
+
+                L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+                    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                    maxZoom: 18,
+                    id: 'mapbox/streets-v11',
+                    tileSize: 512,
+                    zoomOffset: -1,
+                    accessToken: 'pk.eyJ1Ijoic2hhcmtrbmlmZTAxIiwiYSI6ImNraDh1NDU1eDBvdXkydG1tdTh6NjZraWIifQ.pPcTNiQEIWmHz-uzbBu7ZQ'
+                }).addTo(mymap);
+
+                var marker = L.marker([14.6760, 121.0437]).addTo(mymap);
+                </script>
+                <br>
+                <br>
+                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#basketModal">View Basket</button>
+
+                <div class="modal fade" id="basketModal">
+                    <div class="modal-dialog modal-dialog-scrollable">
+                        <div class="modal-content">
+                        
+                            <div class="modal-header">
+                            <h4 class="modal-title">Basket</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table" id="basket-list">
+                                    <tr id="basket-list-head">
+                                        <th>Item</th>
+                                        <th>Cost</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Total cost: </td>
+                                        <td id="total-cost"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                <button type="button" id="clear-basket-btn" class="btn btn-secondary" data-dismiss="modal">Clear Basket</button>
+                                <button type="button" class="btn btn-success" data-dismiss="modal">Checkout</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+
+                </script>
+
+            </div>
+        </div>
+
+        <div class="footer-container container p-2 bg-dark">
+            <footer class="page-footer">
+                <ul class="nav justify-content-center">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Facebook</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Twitter</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Instagram</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="about.html" class="nav-link">About Site</a>
+                    </li>
+                </ul>
+            </footer>
+        </div>
+    </div>  
+</body>
+</html>

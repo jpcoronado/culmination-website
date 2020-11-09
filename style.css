@@ -1,0 +1,53 @@
+body {
+  background-color: #e9e9ff;
+}
+
+.jumbotron-container {
+  background-image: url(img/donuts-bg.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 0;
+  margin-top: 75px;
+}
+
+.jumbotron {
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 100px;
+}
+
+.title {
+  font-size: 5em;
+}
+
+.card {
+  max-width: 25rem;
+}
+
+.card-deck {
+  justify-content: center;
+}
+
+.menu-container {
+  padding: 50px;
+}
+
+.footer-container {
+  margin-top: 100px;
+}
+
+#mymap {
+  height: 250px;
+}
+
+.toast {
+  opacity: 1 !important;
+}
+
+.page-footer @media only screen and (max-width: 768px) {
+  .title {
+    font-size: 30pt;
+  }
+  .jumbotron {
+    padding: auto;
+  }
+}
